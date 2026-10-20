@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CalculadorasPro — Todas las calculadoras en un solo lugar</title>
+<meta name="description" content="Calculadoras online gratis: IMC, préstamos, propinas, porcentajes, calorías, divisas, edad, interés compuesto, descuentos e IVA.">
+<style>
+:root{
+  --bg:#0f1222; --card:#1a1f3a; --card2:#20264a; --txt:#eef1ff; --muted:#9aa3c7;
+  --acc:#6c5ce7; --acc2:#00d2ff; --border:#2b3260; --dash:#3a4170; --res:#141830; --radius:18px;
+}
+body.light{
+  --bg:#f4f6ff; --card:#ffffff; --card2:#eef1fb; --txt:#1a1f3a; --muted:#5a628a;
+  --border:#d8ddf5; --dash:#b8bfe8; --res:#eef1fb;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:radial-gradient(1200px 600px at 80% -10%,#2a2f5e 0%,var(--bg) 60%);color:var(--txt);min-height:100vh;transition:background .3s,color .3s}
+body.light{background:radial-gradient(1200px 600px at 80% -10%,#dfe6ff 0%,var(--bg) 60%)}
+
+/* Menú de navegación fijo */
+nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--card) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:10px;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex-shrink:0;color:var(--muted);text-decoration:none;font-size:.85rem;padding:7px 14px;border-radius:20px;border:1px solid var(--border);transition:all .2s;white-space:nowrap}
+nav a:hover{color:var(--txt);border-color:var(--acc);background:var(--card2)}
+#themeBtn{flex-shrink:0;margin-left:auto;background:var(--card2);border:1px solid var(--border);color:var(--txt);border-radius:20px;padding:7px 14px;cursor:pointer;font-size:1rem;width:auto}
+
+header{padding:48px 20px 24px;text-align:center}
+header h1{font-size:clamp(1.8rem,4vw,3rem);background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+header p{color:var(--muted);margin-top:10px;max-width:640px;margin-inline:auto}
+.ad-banner{max-width:960px;margin:24px auto;min-height:90px;background:repeating-linear-gradient(45deg,var(--card),var(--card) 12px,var(--card2) 12px,var(--card2) 24px);border:2px dashed var(--dash);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;max-width:1200px;margin:0 auto;padding:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.15);transition:transform .2s;scroll-margin-top:80px}
+.card:hover{transform:translateY(-4px)}
+.card h2{font-size:1.25rem;display:flex;align-items:center;gap:10px}
+.card .icon{font-size:1.6rem;background:linear-gradient(135deg,var(--acc),var(--acc2));border-radius:12px;padding:6px 10px}
+.desc{color:var(--muted);font-size:.9rem;line-height:1.5;margin:12px 0 16px}
+label{display:block;font-size:.85rem;color:var(--muted);margin:10px 0 4px}
+input,select{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--dash);background:var(--card2);color:var(--txt);font-size:1rem;outline:none}
+input:focus{border-color:var(--acc)}
+button{width:100%;margin-top:14px;padding:12px;border:none;border-radius:12px;background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff;font-weight:700;font-size:1rem;cursor:pointer;transition:filter .2s}
+button:hover{filter:brightness(1.15)}
+.result{margin-top:16px;padding:14px;border-radius:12px;background:var(--res);border:1px solid var(--border);font-size:1.15rem;font-weight:700;text-align:center;min-height:50px}
+.result small{display:block;font-weight:400;color:var(--muted);font-size:.8rem;margin-top:4px}
+.ad-box{max-width:1200px;margin:20px auto 60px;min-height:120px;background:repeating-linear-gradient(45deg,var(--card),var(--card) 12px,var(--card2) 12px,var(--card2) 24px);border:2px dashed var(--dash);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+footer{text-align:center;color:var(--muted);padding:30px;font-size:.85rem}
+html{scroll-behavior:smooth}
+</style>
+</head>
+<body>
+
+<!-- MENÚ DE NAVEGACIÓN -->
+<nav>
+  <a href="#imc">⚖️ IMC</a>
+  <a href="#prestamo">🏦 Préstamos</a>
+  <a href="#propina">🍽️ Propinas</a>
+  <a href="#porcentaje">％ Porcentajes</a>
+  <a href="#calorias">🔥 Calorías</a>
+  <a href="#divisas">💱 Divisas</a>
+  <a href="#edad">🎂 Edad</a>
+  <a href="#interes">📈 Interés comp.</a>
+  <a href="#descuento">🏷️ Descuentos</a>
+  <a href="#iva">🧾 IVA</a>
+  <button id="themeBtn" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
+</nav>
+
+<header>
+  <h1>⚡ CalculadorasPro</h1>
+  <p>10 calculadoras gratis, sin registro y en tiempo real. Usa el menú de arriba para saltar a la que necesites.</p>
+</header>
+
+<!-- ESPACIO PUBLICITARIO SUPERIOR -->
+<div class="ad-banner" id="ad-top">📢 Espacio publicitario — pega aquí tu código AdSense</div>
+
+<div class="grid">
+
+  <div class="card" id="imc">
+    <h2><span class="icon">⚖️</span>Calculadora de IMC</h2>
+    <p class="desc">Calcula tu <b>Índice de Masa Corporal</b> a partir de tu peso y altura. Sirve para saber si tu peso está en un rango saludable (bajo peso, normal, sobrepeso u obesidad).</p>
+    <label>Peso (kg)</label><input type="number" id="imcW" placeholder="Ej: 70">
+    <label>Altura (cm)</label><input type="number" id="imcH" placeholder="Ej: 175">
+    <button onclick="calcIMC()">Calcular IMC</button>
+    <div class="result" id="resIMC">—</div>
+  </div>
+
+  <div class="card" id="prestamo">
+    <h2><span class="icon">🏦</span>Calculadora de Préstamos</h2>
+    <p class="desc">Calcula la <b>cuota mensual</b> de un préstamo o hipoteca con el sistema francés. Ideal para saber cuánto pagarás cada mes antes de pedir financiación.</p>
+    <label>Monto del préstamo</label><input type="number" id="prM" placeholder="Ej: 20000">
+    <label>Interés anual (%)</label><input type="number" id="prI" placeholder="Ej: 5">
+    <label>Plazo (años)</label><input type="number" id="prA" placeholder="Ej: 5">
+    <button onclick="calcPrestamo()">Calcular Cuota</button>
+    <div class="result" id="resPr">—</div>
+  </div>
+
+  <div class="card" id="propina">
+    <h2><span class="icon">🍽️</span>Calculadora de Propinas</h2>
+    <p class="desc">Calcula cuánto <b>propina</b> dejar y cómo dividir la cuenta entre varias personas. Perfecta para restaurantes y viajes en grupo.</p>
+    <label>Total de la cuenta</label><input type="number" id="prT" placeholder="Ej: 85.50">
+    <label>Propina (%)</label><input type="number" id="prP" value="10">
+    <label>Nº de personas</label><input type="number" id="prN" value="1">
+    <button onclick="calcPropina()">Calcular</button>
+    <div class="result" id="resProp">—</div>
+  </div>
+
+  <div class="card" id="porcentaje">
+    <h2><span class="icon">％</span>Calculadora de Porcentajes</h2>
+    <p class="desc">Calcula <b>qué porcentaje representa</b> una cantidad sobre otra. Útil para descuentos, notas, comisiones y estadísticas rápidas.</p>
+    <label>X (parte)</label><input type="number" id="pcX" placeholder="Ej: 25">
+    <label>Y (total)</label><input type="number" id="pcY" placeholder="Ej: 200">
+    <button onclick="calcPorc()">Calcular %</button>
+    <div class="result" id="resPc">—</div>
+  </div>
+
+  <div class="card" id="calorias">
+    <h2><span class="icon">🔥</span>Calorías Diarias (TDEE)</h2>
+    <p class="desc">Estima las <b>calorías que quemas al día</b> según tu edad, sexo, peso, altura y actividad. Base para planes de pérdida o ganancia de peso.</p>
+    <label>Sexo</label>
+    <select id="calS"><option value="h">Hombre</option><option value="m">Mujer</option></select>
+    <label>Edad (años)</label><input type="number" id="calE">
+    <label>Peso (kg)</label><input type="number" id="calP">
+    <label>Altura (cm)</label><input type="number" id="calA">
+    <label>Actividad</label>
+    <select id="calAct">
+      <option value="1.2">Sedentario</option>
+      <option value="1.375">Ligera (1-3 días/semana)</option>
+      <option value="1.55">Moderada (3-5 días)</option>
+      <option value="1.725">Alta (6-7 días)</option>
+    </select>
+    <button onclick="calcCal()">Calcular Calorías</button>
+    <div class="result" id="resCal">—</div>
+  </div>
+
+  <div class="card" id="divisas">
+    <h2><span class="icon">💱</span>Conversor de Divisas</h2>
+    <p class="desc">Convierte entre más de <b>150 divisas con tasas en tiempo real</b> (API gratuita). Útil para viajes y compras internacionales.</p>
+    <label>Cantidad</label><input type="number" id="dvC" placeholder="Ej: 100">
+    <label>De</label><select id="dvD"></select>
+    <label>A</label><select id="dvH"></select>
+    <button onclick="calcDiv()">Convertir</button>
+    <div class="result" id="resDv">Cargando tasas...</div>
+  </div>
+
+  <div class="card" id="edad">
+    <h2><span class="icon">🎂</span>Calculadora de Edad</h2>
+    <p class="desc">Calcula tu <b>edad exacta</b> en años, meses y días desde tu fecha de nacimiento. También muestra los días vividos.</p>
+    <label>Fecha de nacimiento</label><input type="date" id="edF">
+    <button onclick="calcEdad()">Calcular Edad</button>
+    <div class="result" id="resEd">—</div>
+  </div>
+
+  <div class="card" id="interes">
+    <h2><span class="icon">📈</span>Interés Compuesto</h2>
+    <p class="desc">Simula el <b>crecimiento de tu inversión</b> con interés compuesto. Ideal para ver cómo crece tu dinero en fondos, depósitos o planes de pensiones.</p>
+    <label>Capital inicial</label><input type="number" id="icC" placeholder="Ej: 1000">
+    <label>Aportación mensual</label><input type="number" id="icM" placeholder="Ej: 100">
+    <label>Interés anual (%)</label><input type="number" id="icI" placeholder="Ej: 7">
+    <label>Años</label><input type="number" id="icA" placeholder="Ej: 10">
+    <button onclick="calcIC()">Simular</button>
+    <div class="result" id="resIC">—</div>
+  </div>
+
+  <div class="card" id="descuento">
+    <h2><span class="icon">🏷️</span>Calculadora de Descuentos</h2>
+    <p class="desc">Calcula el <b>precio final</b> de un producto tras aplicar un descuento. Perfecto para las rebajas y el Black Friday.</p>
+    <label>Precio original</label><input type="number" id="dsP" placeholder="Ej: 50">
+    <label>Descuento (%)</label><input type="number" id="dsD" placeholder="Ej: 20">
+    <button onclick="calcDesc()">Calcular</button>
+    <div class="result" id="resDs">—</div>
+  </div>
+
+  <div class="card" id="iva">
+    <h2><span class="icon">🧾</span>Calculadora de IVA</h2>
+    <p class="desc">Añade o quita el <b>IVA</b> de un precio. Útil para autónomos, facturas y conocer el precio real de lo que compras.</p>
+    <label>Precio</label><input type="number" id="ivP" placeholder="Ej: 100">
+    <label>Tipo de IVA (%)</label>
+    <select id="ivT"><option>21</option><option>10</option><option>4</option><option>0</option></select>
+    <label>Operación</label>
+    <select id="ivO"><option value="add">Añadir IVA</option><option value="rem">Quitar IVA</option></select>
+    <button onclick="calcIVA()">Calcular</button>
+    <div class="result" id="resIv">—</div>
+  </div>
+
+</div>
+
+<!-- ESPACIO PUBLICITARIO INFERIOR -->
+<div class="ad-box" id="ad-bottom">📢 Espacio publicitario — pega aquí tu código AdSense</div>
+
+<footer>© 2026 CalculadorasPro · Todas las calculadoras son orientativas.</footer>
+
+<script>
+function set(id,txt,extra=""){document.getElementById(id).innerHTML=txt+(extra?`<small>${extra}</small>`:"")}
+
+/* --- Modo claro / oscuro --- */
+function toggleTheme(){
+  document.body.classList.toggle("light");
+  const claro=document.body.classList.contains("light");
+  document.getElementById("themeBtn").textContent=claro?"☀️":"🌙";
+  localStorage.setItem("tema",claro?"light":"dark");
+}
+if(localStorage.getItem("tema")==="light"){
+  document.body.classList.add("light");
+  document.getElementById("themeBtn").textContent="☀️";
+}
+
+/* --- Calculadoras --- */
+function calcIMC(){
+  const w=+imcW.value,h=+imcH.value/100;
+  if(!w||!h)return set("resIMC","⚠️ Completa los campos");
+  const i=w/(h*h);
+  let cat=i<18.5?"Bajo peso":i<25?"Peso normal":i<30?"Sobrepeso":"Obesidad";
+  set("resIMC",`IMC: ${i.toFixed(1)}`,cat);
+}
+function calcPrestamo(){
+  const m=+prM.value,r=+prI.value/100/12,n=+prA.value*12;
+  if(!m||n<=0)return set("resPr","⚠️ Completa los campos");
+  const c=r>0?m*r/(1-Math.pow(1+r,-n)):m/n;
+  set("resPr",`Cuota mensual: ${c.toFixed(2)}`,`Total a pagar: ${(c*n).toFixed(2)}`);
+}
+function calcPropina(){
+  const t=+prT.value,p=+prP.value,n=Math.max(1,+prN.value||1);
+  if(!t)return set("resProp","⚠️ Introduce el total");
+  const prop=t*p/100;
+  set("resProp",`Por persona: ${((t+prop)/n).toFixed(2)}`,`Propina total: ${prop.toFixed(2)}`);
+}
+function calcPorc(){
+  const x=+pcX.value,y=+pcY.value;
+  if(!x||!y)return set("resPc","⚠️ Completa los campos");
+  set("resPc",`${((x/y)*100).toFixed(2)} %`,`${x} de ${y}`);
+}
+function calcCal(){
+  const s=calS.value,e=+calE.value,w=+calP.value,h=+calA.value,a=+calAct.value;
+  if(!e||!w||!h)return set("resCal","⚠️ Completa los campos");
+  const bmr=s==="h"?10*w+6.25*h-5*e+5:10*w+6.25*h-5*e-161;
+  set("resCal",`${Math.round(bmr*a)} kcal/día`,`Mantener peso · Resta 500 kcal para perder`);
+}
+function calcEdad(){
+  if(!edF.value)return set("resEd","⚠️ Selecciona tu fecha");
+  const n=new Date(),f=new Date(edF.value);
+  let a=n.getFullYear()-f.getFullYear(),m=n.getMonth()-f.getMonth(),d=n.getDate()-f.getDate();
+  if(d<0){m--;d+=new Date(n.getFullYear(),n.getMonth(),0).getDate()}
+  if(m<0){a--;m+=12}
+  const dias=Math.floor((n-f)/86400000);
+  set("resEd",`${a} años, ${m} meses y ${d} días`,`Has vivido ${dias.toLocaleString('es')} días 🎉`);
+}
+function calcIC(){
+  const c=+icC.value,m=+icM.value,r=+icI.value/100/12,n=+icA.value*12;
+  if(n<=0)return set("resIC","⚠️ Completa los campos");
+  let fv=c;
+  for(let i=0;i<n;i++)fv=fv*(1+r)+m;
+  const aportado=c+m*n;
+  set("resIC",`${fv.toFixed(2)}`,`Aportado: ${aportado.toFixed(2)} · Ganancias: ${(fv-aportado).toFixed(2)}`);
+}
+function calcDesc(){
+  const p=+dsP.value,d=+dsD.value;
+  if(!p||d<0)return set("resDs","⚠️ Completa los campos");
+  set("resDs",`${(p*(1-d/100)).toFixed(2)}`,`Ahorras ${(p*d/100).toFixed(2)}`);
+}
+function calcIVA(){
+  const p=+ivP.value,t=+ivT.value/100;
+  if(!p)return set("resIv","⚠️ Introduce el precio");
+  if(ivO.value==="add")set("resIv",`${(p*(1+t)).toFixed(2)}`,`IVA: ${(p*t).toFixed(2)}`);
+  else set("resIv",`${(p/(1+t)).toFixed(2)}`,`IVA incluido: ${(p-p/(1+t)).toFixed(2)}`);
+}
+
+/* --- Divisas en tiempo real (API gratuita sin clave) --- */
+let tasas=null;
+async function cargarTasas(){
+  try{
+    const r=await fetch("https://open.er-api.com/v6/latest/EUR");
+    const d=await r.json();
+    tasas=d.rates;
+    const monedas=Object.keys(tasas).sort();
+    for(const sel of [dvD,dvH]){
+      sel.innerHTML=monedas.map(m=>`<option>${m}</option>`).join("");
+    }
+    dvD.value="EUR";dvH.value="USD";
+    set("resDv","Listo ✔","Tasas actualizadas hoy");
+  }catch(e){
+    set("resDv","⚠️ No se pudieron cargar las tasas","Revisa tu conexión");
+  }
+}
+function calcDiv(){
+  const c=+dvC.value;
+  if(!tasas)return set("resDv","⏳ Cargando tasas...");
+  if(!c)return set("resDv","⚠️ Introduce cantidad");
+  set("resDv",`${(c*tasas[dvD.value]/tasas[dvH.value]).toFixed(2)} ${dvH.value}`,`1 ${dvD.value} = ${(tasas[dvH.value]/tasas[dvD.value]).toFixed(4)} ${dvH.value}`);
+}
+cargarTasas();
+</script>
+</body>
+</html>
